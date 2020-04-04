@@ -26,6 +26,9 @@ try {
 } catch(Exception $e) {
 	echo "Ошибочка в следующем : ".$e;
 
+}finally{
+	echo count($user);
+	
 }
 
 

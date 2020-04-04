@@ -5,9 +5,13 @@ use frontend\tests\FunctionalTester;
 
 class UserfinanceCest
 {
+     public function _before(FunctionalTester $I)
+    {
+        $I->amOnRoute('user/user');
+    }
     public function checkUser(FunctionalTester $I)
     {
-        $I->amOnRoute('user/user');;
+        
         $I->see('My Application');
         $I->seeLink('test');
         $I->see('Ваш идентификонный номер ');
