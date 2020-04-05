@@ -31,7 +31,7 @@ class m200404_144044_create_expenses_attachments_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%expenses_attachments}}');
         $this->dropForeignKey('fk-image-expenses_id','expenses_attachments');
+        $this->dropTable('{{%expenses_attachments}}');
     }
 }
