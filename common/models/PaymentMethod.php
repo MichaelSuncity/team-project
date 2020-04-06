@@ -75,6 +75,7 @@ class PaymentMethod extends \yii\db\ActiveRecord
         return ArrayHelper::map(
             self::find()
                 ->where([
+                    'user_id' =>yii::$app->user->identity->getId()
                 ])
                 ->asArray()
                 ->all(),
