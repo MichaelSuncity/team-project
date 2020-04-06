@@ -19,7 +19,7 @@ class m200403_172107_create_expenses_table extends Migration
             'category_id' => $this -> integer()->notNull()->comment('Категория расходов'),
             'method_id' => $this -> integer()->comment('Способ оплаты'),
             'user_id' => $this -> integer()->comment('Создатель'),
-            'date' => $this ->string()->comment('Дата'),
+            'date' => $this ->date()->comment('Дата'),
             'description' => $this -> string()->comment('Описание'),
             'created_at' => $this -> Integer(),
             'updated_at' => $this -> Integer(),

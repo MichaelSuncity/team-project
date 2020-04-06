@@ -34,7 +34,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'cost',
             'category_id',
-            'method_id',
+            [
+                'label' => 'Способ оплаты',
+                'attribute' => 'method_id',
+                'value' => function(Expenses $model) {
+                    return $model->paymentMethod->name;
+                }
+            ],
             //'user_id',
             'date',
             'description',

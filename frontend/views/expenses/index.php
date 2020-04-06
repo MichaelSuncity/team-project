@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\SerialColumn;
+use common\models\Expenses;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\search\ExpensesSearch */
@@ -30,7 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'cost',
             'category_id',
-            'method_id',
+            [
+                'label' => 'Способ оплаты',
+                'attribute' => 'method_id',
+                'value' => function(Expenses $model) {
+                    return $model->paymentMethod->name;
+                }
+            ],
             //'user_id',
             'date',
             //'description',

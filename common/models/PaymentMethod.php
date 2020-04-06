@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "payment_method".
@@ -67,5 +68,17 @@ class PaymentMethod extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\PaymentMethodQuery(get_called_class());
+    }
+
+    public static function getPaymentMethod()
+    {
+        return ArrayHelper::map(
+            self::find()
+                ->where([
+                ])
+                ->asArray()
+                ->all(),
+            'id',
+            'name');
     }
 }
