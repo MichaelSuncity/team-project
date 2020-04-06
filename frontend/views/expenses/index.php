@@ -27,10 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => SerialColumn::class,
                 'header' => 'Псевдо-порядковый класс',
             ],
-            'id',
+            //'id',
             'title',
-            'cost',
-            'category_id',
+            [
+                'label' => 'Категория затрат',
+                'attribute' => 'category_id',
+                'value' => function(Expenses $model) {
+                    return $model->expensesCategory->title;
+                }
+            ],
             [
                 'label' => 'Способ оплаты',
                 'attribute' => 'method_id',
@@ -40,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             //'user_id',
             'date',
+            'cost',
             //'description',
             //'created_at',
             //'updated_at',

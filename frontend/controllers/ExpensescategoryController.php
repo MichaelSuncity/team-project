@@ -3,19 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Expenses;
-use frontend\models\search\ExpensesSearch;
-use yii\data\ActiveDataProvider;
+use common\models\ExpensesCategory;
+use frontend\models\search\ExpensesCategorySearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
-use common\models\ExpensesAttachmentsAddForm;
+use yii\data\ActiveDataProvider;
 
 /**
- * ExpensesController implements the CRUD actions for Expenses model.
+ * ExpensescategoryController implements the CRUD actions for ExpensesCategory model.
  */
-class ExpensesController extends Controller
+class ExpensescategoryController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -28,7 +26,7 @@ class ExpensesController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'create', 'view', 'update', 'delete', 'addattachment'],
+                        'actions' => ['index', 'create', 'view', 'update', 'delete'],
                         'roles' => ['@']
                     ],
                 ],
@@ -37,63 +35,47 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Lists all Expenses models.
+     * Lists all ExpensesCategory models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ExpensesSearch();
+        $searchModel = new ExpensesCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        /*
-        Заготовка кода для просмотра страницы админом или пользователем своих записей. Раскомментировать  и закомментировать строка кода повыше
-
-        $query = Expenses::find();
-        if (!Yii::$app->user->can('admin')) {
-                $query->andWhere(['user_id' => Yii::$app->user->id]);
-        }
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'validatePage' => false,
-                'pageSize'=> 20,
-            ]
-        ]);
-        */
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
     }
 
     /**
-     * Displays a single Expenses model.
+     * Displays a single ExpensesCategory model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView(int $id)
+    public function actionView($id)
     {
-        $model = Expenses::findOne($id);
+        $model = $this->findModel($id);
         if ($model->user_id == Yii::$app->user->id) {
             return $this->render('view', [
-            'model' => $model,
-                'expensesAttachmentForm' => new ExpensesAttachmentsAddForm()
-        ]);
-        }  else {
+                'model' => $this->findModel($id),
+            ]);
+        } else {
             throw new NotFoundHttpException();
         }
     }
 
     /**
-     * Creates a new Expenses model.
+     * Creates a new ExpensesCategory model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Expenses();
+        $model = new ExpensesCategory();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -105,7 +87,7 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Updates an existing Expenses model.
+     * Updates an existing ExpensesCategory model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -113,7 +95,7 @@ class ExpensesController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = Expenses::findOne($id);
+        $model = $this->findModel($id);
         if ($model->user_id == Yii::$app->user->id) {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -121,15 +103,14 @@ class ExpensesController extends Controller
 
             return $this->render('update', [
                 'model' => $model,
-                'expensesAttachmentForm' => new ExpensesAttachmentsAddForm()
             ]);
-        } else {
-            throw new NotFoundHttpException();
+            } else {
+                throw new NotFoundHttpException();
         }
     }
 
     /**
-     * Deletes an existing Expenses model.
+     * Deletes an existing ExpensesCategory model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -137,7 +118,7 @@ class ExpensesController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = Expenses::findOne($id);
+        $model = ExpensesCategory::findOne($id);
         if ($model->user_id == Yii::$app->user->id) {
             $model->delete();
             return $this->redirect(['index']);
@@ -147,32 +128,18 @@ class ExpensesController extends Controller
     }
 
     /**
-     * Finds the Expenses model based on its primary key value.
+     * Finds the ExpensesCategory model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Expenses the loaded model
+     * @return ExpensesCategory the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Expenses::findOne($id)) !== null) {
+        if (($model = ExpensesCategory::findOne($id)) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-    //добавление файлов
-    public function actionAddattachment()
-    {
-        $model = new ExpensesAttachmentsAddForm();
-        $model->load(\Yii::$app->request->post());
-        $model->attachment = UploadedFile::getInstance($model, 'attachment');
-        if ($model->save()) {
-            \Yii::$app->session->setFlash('success', "Файл добавлен");
-        } else {
-            \Yii::$app->session->setFlash('error', "Не удалось добавить файл");
-        }
-        $this->redirect(\Yii::$app->request->referrer);
     }
 }
