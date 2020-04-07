@@ -112,8 +112,8 @@ class ExpensesCategory extends \yii\db\ActiveRecord
     public function getTotalCategoryCurrentMonth()
     {
         return Expenses::find()
-            ->where(['category_id' => $this->id,
-                'date'=> date('Y-m')])
+            ->where(['category_id' => $this->id])
+            ->andWhere(['like', 'date', date('Y-m')])
             ->sum('cost');
     }
 }
