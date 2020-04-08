@@ -7,7 +7,6 @@ use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\conditions\BetweenColumnsCondition;
 use yii\db\conditions\BetweenCondition;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "expenses_category".
@@ -115,5 +114,40 @@ class ExpensesCategory extends \yii\db\ActiveRecord
             ->where(['category_id' => $this->id])
             ->andWhere(['like', 'date', date('Y-m')])
             ->sum('cost');
+    }
+    //настройка ответа на json запрос
+    public function fields()
+    {
+        $fields = parent::fields();
+        //Удаление ненужных полей
+        unset($fields['created_at']);
+        unset($fields['updated_at']);
+        //добавление сумм затрат за различные периоды
+        $fields = array_merge($fields,[
+            'total'=> function()
+            {
+                return $this->getTotalCategory();
+            },
+            'totaltoday'=>function()
+            {
+                return $this->getTotalCategoryToday();
+            },
+            'totalmonth'=>function()
+            {
+                return $this->getTotalCategoryCurrentMonth();
+            }
+        ]);
+        /* Фильтрация  вывода категорий, которые не принадлежат авторизованному пользователю.
+        $user = Yii::$app->user->identity->getId();
+        foreach ($fields as $key){
+            if($this->user_id != $user){
+                array_splice($fields,0,1);
+            }
+        }*/
+        //Другой способ вывода категорий, которые не принадлежат авторизованному пользователю.
+        $fields = array_filter($fields, function (){
+            return $this->user_id == Yii::$app->user->identity->getId();
+        });
+        return $fields;
     }
 }
