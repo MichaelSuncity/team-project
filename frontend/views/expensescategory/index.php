@@ -59,3 +59,35 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить категорию', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 </div>
+<!-- добавление узла для vue-->
+<div id="app">
+    <!-- Кнопка для запуска модального окна -->
+    <button type="button" class="showBtn" data-toggle="modal" data-target="#exampleModalCenter">
+        Добавить категорию
+    </button>
+
+    <!-- модальное окно для создания новой категории-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Создать новую категорию</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <addform @onadd="handleClickAdd"></addform>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Компонент vue  для отображения списка категорий -->
+    <expensescategory @onremove="handleClickRemove" @onedit="handleClickEdit"  :items="items"></expensescategory>
+</div>
+
+<!-- подключение css, vue, js скрипта для страница -->
+<?php $this->registerCssFile('@web/css/expensescategoryindex.css');?>
+<?php $this->registerJsFile('https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js');?>
+<?php $this->registerJsFile('@web/js/appCategory.js');?>

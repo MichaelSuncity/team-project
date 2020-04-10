@@ -22,7 +22,7 @@ class ExpensescategoriesController extends ActiveController
         }
     }
 
-    public function behaviors()
+    /*public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
@@ -31,5 +31,5 @@ class ExpensescategoriesController extends ActiveController
 
         return $behaviors;
 
-    }
+    }*/
 }

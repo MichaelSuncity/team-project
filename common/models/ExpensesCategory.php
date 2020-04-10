@@ -5,8 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\db\conditions\BetweenColumnsCondition;
-use yii\db\conditions\BetweenCondition;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "expenses_category".
@@ -93,27 +92,39 @@ class ExpensesCategory extends \yii\db\ActiveRecord
             'title');
     }
 
+    public function checkTotal($total)
+    {
+        if($total!=0) {
+            return $total;
+        }else {
+            return 0;
+        }
+    }
+
     public function getTotalCategory()
     {
-        return Expenses::find()
+        $total = Expenses::find()
             ->where(['category_id' => $this->id])
             ->sum('cost');
+        return $this->checkTotal($total);
     }
 
     public function getTotalCategoryToday()
     {
-        return Expenses::find()
+        $total = Expenses::find()
             ->where(['category_id' => $this->id,
             'date'=> date('Y-m-d')])
             ->sum('cost');
+        return $this->checkTotal($total);
     }
 
     public function getTotalCategoryCurrentMonth()
     {
-        return Expenses::find()
+        $total = Expenses::find()
             ->where(['category_id' => $this->id])
             ->andWhere(['like', 'date', date('Y-m')])
             ->sum('cost');
+        return $this->checkTotal($total);
     }
     //настройка ответа на json запрос
     public function fields()
@@ -145,9 +156,9 @@ class ExpensesCategory extends \yii\db\ActiveRecord
             }
         }*/
         //Другой способ вывода категорий, которые не принадлежат авторизованному пользователю.
-        $fields = array_filter($fields, function (){
+        /*$fields = array_filter($fields, function (){
             return $this->user_id == Yii::$app->user->identity->getId();
-        });
+        });*/
         return $fields;
     }
 }
