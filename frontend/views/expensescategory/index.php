@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <!-- добавление узла для vue-->
 <div id="app">
     <!-- Кнопка для запуска модального окна -->
-    <button type="button" class="showBtn" data-toggle="modal" data-target="#exampleModalCenter">
+    <button type="button" @click="handleClickShow" id="showBtn" class="showBtn" data-toggle="modal" data-target="#exampleModalCenter">
         Добавить категорию
     </button>
 
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <addform @onadd="handleClickAdd"></addform>
+                    <addform @onadd="handleClickAdd" @oneditsave="handleClickEditSave"></addform>
                 </div>
             </div>
         </div>

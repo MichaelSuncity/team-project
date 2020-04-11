@@ -63,14 +63,18 @@ Vue.component('addform', {
                 <input id="addInputName" class="addInputName" type="text" placeholder="Введите название...">
             <div>
             <div>
-              <button @click="handleClickAdd" type="button" class="btn btn-primary">Сохранить</button>
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+              <button @click="handleClickAdd" id="handleClickAdd" type="button" class="btn btn-primary">Сохранить</button>
+              <button @click="handleClickEditSave" type="button"  id="handleClickEditSave" value="" class="hidden btn btn-primary">Сохранить</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
             </div>
         </div>`,
     methods: {
         handleClickAdd() {
             this.$emit('onadd');
-        }
+        },
+        handleClickEditSave() {
+            this.$emit('oneditsave');
+        },
     }
 });
 
@@ -81,6 +85,17 @@ const app = new Vue({
       items: [],
    },
     methods: {
+        //метод для открытия модального окна с очисткой поля ввода и обновления названия формы
+        handleClickShow() {
+            document.getElementById('addInputName').value = '';
+            document.getElementById('exampleModalLongTitle').textContent = 'Создать новую категорию';
+            //сокрытие кнопки редактирования, проявление кнопки добавления
+            document.getElementById('handleClickAdd').classList.remove('hidden');
+            const handleClickEditSave = document.getElementById('handleClickEditSave');
+            handleClickEditSave.classList.add('hidden');
+            handleClickEditSave.value ='';
+       },
+
        //метод для добавления новой категории
         handleClickAdd() {
             const  title = document.getElementById('addInputName').value;
@@ -96,7 +111,9 @@ const app = new Vue({
             }).then((response) => response.json())
                 .then((title) => {
                         this.items.push(title);
-                    })
+                        //закрытие окна
+                        $('#exampleModalCenter').modal('hide');
+                })
         },
         //метод для удаления выбранной категории из списка
         handleClickRemove(item) {
@@ -113,14 +130,43 @@ const app = new Vue({
                     this.items.splice(itemIdx, 1);
                 });
         },
-        //метод для редактирования выбранной категории из списка
+        //метод для изменения модального окна с добавления на редактирование с заполнением id в кнопку сохранения и title в input
         handleClickEdit(item) {
+            //считывание выбранной категории по id
             const categoryItem = this.items.find(categoryItem => categoryItem.id == item.id);
-            const  title = document.getElementById('addInputName');
-            title.innerText = categoryItem.title;
-            console.log(title.value);
-            console.log(categoryItem.id);
-            console.log(categoryItem.title);
+            //перенос названия выбранной категории в модальное окно
+            document.getElementById('addInputName').value = categoryItem.title;
+            //переименование модального окна
+            document.getElementById('exampleModalLongTitle').textContent = 'Редактирование записи';
+            //сокрытие кнопки добавления, проявление кнопки редактирования
+            const handleClickEditSave = document.getElementById('handleClickEditSave');
+            handleClickEditSave.classList.remove('hidden');
+            document.getElementById('handleClickAdd').classList.add('hidden');
+            //прописываю в кнопку значение id выбранной категории для последующего сохранения
+            handleClickEditSave.value = categoryItem.id;
+            console.log(handleClickEditSave.value);
+        },
+        //метод для сохранения редактируемой категории
+        handleClickEditSave() {
+            const id = document.getElementById('handleClickEditSave').value;
+            const title = document.getElementById('addInputName').value;
+            fetch(`${API_URL}/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    title: title,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((response) => response.json())
+                .then((result) => {
+                    //считываю порядковый номер элемента (категории) в массиве, чтобы обновить
+                    const idx = this.items.findIndex(categoryItem => categoryItem.id == id);
+                    //this.items[idx] = result; данная строка обновляет элемент, но почему-то не обновляется информация на странице
+                    Vue.set(this.items, idx, result);
+                    //закрытие окна
+                    $('#exampleModalCenter').modal('hide');
+                });
         }
     },
     // первоначальная загрузка категорий из БД для отображения

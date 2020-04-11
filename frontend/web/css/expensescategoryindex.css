@@ -70,6 +70,14 @@ body {
 
 .editDeleteButton {
     padding: 10px 7px;
+    outline: none;
+}
+.modal-header .modal-title {
+    float: left;
+}
+
+.modal-header .close {
+    float: right;
 }
 
 .editDeleteButton i:hover{
