@@ -5,7 +5,7 @@ namespace frontend\tests\functional;
 use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 
-class AutorisationCest
+class LoginCest
 {
     /**
      * Load fixtures before db transaction begin
@@ -26,7 +26,7 @@ class AutorisationCest
 
     public function _before(FunctionalTester $I)
     {
-        $I->amOnRoute('userauthorization/authorization');
+        $I->amOnRoute('site/login');
     }
 
     protected function formParams($login, $password)
