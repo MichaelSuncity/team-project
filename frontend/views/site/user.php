@@ -1,4 +1,4 @@
-?php /// MMMOWWW
+<?php /// MMMOWWW
 
 use yii\helpers\Html;
 use frontend\models\ModelsUser;
