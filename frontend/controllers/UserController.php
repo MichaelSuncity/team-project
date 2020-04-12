@@ -9,44 +9,33 @@ use yii\web\Controller;
 use frontend\models\ModelsUser;
 use yii\db\Connection;
 use \yii\db\Query;
+use frontend\models\UserAvtorisation;
+////
 
 
-class UserController extends Controller {
-/// Работа с заглушкой
+use common\models\LoginForm;
+use frontend\models\PasswordResetRequestForm;
+use frontend\models\ResetPasswordForm;
+use frontend\models\SignupForm;
+use frontend\models\ContactForm;
 
 
-//////
-/*
-//////
-public function actionUser(){   //actionUser($id){
-	$user = array(['id' =>1 ,  // user = $id,
-				  'username' =>'Вликолепный',
-				  'subname' =>'Блестательный' ,
-				  'email' =>'mail@mail.ru',
-				  'created_at' =>'1.1.0001',
-				  'updated_at' =>'1.2.400000'
-				   ]);
+class UserController extends Controller  {
 
-	
-
-
+	public function actionUser(){
+		$userName = \Yii::$app->user->identity->username;
+		$userId=\Yii::$app->user->identity->id;
+		$user = (new \yii\db\Query())
+    		->select(["id","username","subname","email","created_at","updated_at"])
+    		->from('user')
+    		->where(['username' => $userName])
+    		->andWhere(['id' => $userId])
+    		->limit(2)
+    		->all();
+   
     
 
-return $this->render('user', [
-               'user' => $user,
-            ]);
-}
-///////
-*/
-//////
-public function actionUser(){
-
-
-$user = (new \yii\db\Query())
-    ->select(["id","username","subname","email","created_at","updated_at"])
-    ->from('user')
-    ->limit(10)
-    ->all();
+  
 	return $this->render('user', [
                'user' => $user,
             ]);

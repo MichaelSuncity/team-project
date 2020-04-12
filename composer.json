@@ -33,8 +33,7 @@
         "phpunit/phpunit": "~7",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/event-dispatcher": "<=4.2.8",
-        "cboden/ratchet": "^0.4.1",
-        "yiisoft/yii2-imagine": "~2.2.0"
+        "cboden/ratchet": "^0.4.1"
     },
     "config": {
         "process-timeout": 1800,

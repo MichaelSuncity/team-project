@@ -40,10 +40,22 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            
         ],
-        
+        /*
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+             'useFileTransport'=>true,
+             'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'imperatorrewrewfdszf@itiomail.com',
+                'username' => 'USER',
+                'password' => 'password',
+                'port' => '465',
+                'encryption' => 'ssl',
+    ],
+        ],
+        */
     ],
     'params' => $params,
 ];
