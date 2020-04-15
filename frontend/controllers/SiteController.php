@@ -221,13 +221,6 @@ class SiteController extends Controller
      */
     public function actionVerifyEmail($token)
     {
-        
-        $token = mb_substr($token,2);
-        $token1 = substr($token,0,-12);
-        $token2 = substr($token,33,11);
-        $token = "".$token1."".$token2;
-        
-        
         try {
             $model = new VerifyEmailForm($token);
         } catch (InvalidArgumentException $e) {

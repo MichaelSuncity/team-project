@@ -47,10 +47,18 @@ class ExpensesController extends Controller
 
         /*
         Заготовка кода для просмотра страницы админом или пользователем своих записей. Раскомментировать  и закомментировать строка кода повыше
+<<<<<<< HEAD
+=======
+
+>>>>>>> DEV
         $query = Expenses::find();
         if (!Yii::$app->user->can('admin')) {
                 $query->andWhere(['user_id' => Yii::$app->user->id]);
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> DEV
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -173,4 +181,8 @@ class ExpensesController extends Controller
         }
         $this->redirect(\Yii::$app->request->referrer);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> DEV

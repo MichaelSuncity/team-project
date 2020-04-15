@@ -17,4 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
     ]) ?>
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> DEV

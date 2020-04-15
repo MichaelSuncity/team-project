@@ -42,4 +42,8 @@ use yii\widgets\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> DEV
