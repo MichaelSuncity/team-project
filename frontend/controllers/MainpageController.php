@@ -19,12 +19,7 @@ class MainpageController extends Controller
                             ->limit(8)
                             ->asArray()
                             ->all();
-        //$userLastRegistered = (new \yii\db\Query())
-        //    ->select(["username","subname","created_at"])
-        //    ->from('user')
-        //    ->limit(15)
-        //   ->all();
-        //$userLastRegisteredresult=$userLastRegistered->orderBy(['created_at' =>SORT_DESC]);
+        
         $userCount=(new \yii\db\Query())
             ->select(["id","username","subname"])
             ->from('user')

@@ -15,10 +15,10 @@ class EmailverificatorController extends Controller
 
  	public function actionVerification(){
  	Yii::$app->mailer->compose()
-    ->setFrom('NeksusVita303@mail.com')
-    ->setTo('NeksusVita303@mail.com')
+    ->setFrom('mail@mail.com')
+    ->setTo('mail@mail.com')
     ->setSubject('Ты под калпоком')
-    ->setTextBody('Ты стал околпаченным')
+    ->setTextBody('Мы тебя видим')
     ->setHtmlBody('<b>текст сообщения в формате HTML</b>')
     ->send();
     return $this->render('test');
