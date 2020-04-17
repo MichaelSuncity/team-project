@@ -140,3 +140,9 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: gray;
 }
+
+.searchWrap {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}

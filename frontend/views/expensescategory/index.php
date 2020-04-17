@@ -61,6 +61,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <!-- добавление узла для vue-->
 <div id="app">
+    <!--Поиск -->
+    <search  @onsearch="handleSearch"></search>
     <!-- Кнопка для запуска модального окна -->
     <button type="button" @click="handleClickShow" id="showBtn" class="showBtn" data-toggle="modal" data-target="#exampleModalCenter">
         Добавить категорию
@@ -84,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <!-- Компонент vue  для отображения списка категорий -->
-    <expensescategory @onremove="handleClickRemove" @onedit="handleClickEdit"  :items="items"></expensescategory>
+    <expensescategory @onremove="handleClickRemove" @onedit="handleClickEdit"  :items="items" :query="searchQuery"></expensescategory>
 </div>
 
 <!-- подключение css, vue, js скрипта для страница -->

@@ -1,11 +1,28 @@
 const API_URL = 'api/expensescategories';
+//компоенент для поиска
+Vue.component('search', {
+    template: `
+    <div class="searchWrap">
+        <input type="text" v-model="searchQuery"><button @click ="handleSearchClick">Поиск</button>
+    </div>`,
+    data() {
+        return {
+            searchQuery: '',
+        };
+    },
+    methods: {
+        handleSearchClick() {
+            this.$emit('onsearch', this.searchQuery);
+        }
+    }
+});
 //компонент для списка категорий
 Vue.component('expensescategory', {
-    props: ['items'],
+    props: ['items', 'query'],
     template: `
     <div>
             <div class="totalItems" v-if="items.length==0">Категории не созданы. Создайте категорию расходов</div>
-            <div class='categories' v-if="items.length!=0">
+            <div class='categories' v-if="filteredItems.length!=0">
                 <div id='expensesCategoryHead' class='expensesCategoryHead'>
                     <div>Название категории</div>
                     <div>Затраты за сегодня</div>
@@ -15,10 +32,16 @@ Vue.component('expensescategory', {
                     <div></div>
                 </div>
                 <div>
-                    <expensescategory-item class="expensescategory-item" @onremove="handleClickRemove" @onedit="handleClickEdit"  v-for="item in items" :item="item"></expensescategory-item>
+                    <expensescategory-item class="expensescategory-item" @onremove="handleClickRemove" @onedit="handleClickEdit"  v-for="item in filteredItems" :item="item"></expensescategory-item>
                 </div>
             </div>   
         </div>`,
+        computed: {
+        filteredItems() { // поиск
+            const regexp = new RegExp(this.query, 'i');
+            return this.items.filter((item) => regexp.test(item.title))
+        }
+    },
     methods: {
         handleClickRemove(item) {
             this.$emit('onremove', item);
@@ -82,9 +105,14 @@ Vue.component('addform', {
 const app = new Vue({
    el: '#app',
    data: {
-      items: [],
+       items: [],
+       searchQuery: '',
+
    },
     methods: {
+        handleSearch(query){
+            this.searchQuery = query;
+        },
         //метод для открытия модального окна с очисткой поля ввода и обновления названия формы
         handleClickShow() {
             document.getElementById('addInputName').value = '';
