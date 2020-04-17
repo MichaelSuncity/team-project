@@ -50,6 +50,12 @@ return [
                     'extraPatterns' => [
                     ],
                 ],
+                [
+                    'controller' => 'api/expenses',
+                    'class' => \yii\rest\UrlRule::class,
+                    'extraPatterns' => [
+                    ],
+                ],
             ],
         ],
     ],
