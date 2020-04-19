@@ -10,7 +10,7 @@ class m200402_073627_create_tbl_cash_flows extends Migration
         $this->createTable('cash_flows', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
-            'date' => $this->integer()->notNull(),
+            'date' => $this ->date()->notNull(),
             'payment_id' => $this->integer()->notNull(),
             'type' => $this->integer()->notNull(),
             'operation_id' => $this->integer(),

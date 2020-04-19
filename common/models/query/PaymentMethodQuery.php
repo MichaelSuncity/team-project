@@ -13,6 +13,21 @@ class PaymentMethodQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere('[[status]]=1');
     }*/
+    
+    public function byUser($userId)
+    {
+        return $this->andWhere(['user_id' => $userId]);
+    }
+    
+    public function byCurrentUser()
+    {
+        return $this->byUser(\Yii::$app->user->id);
+    }
+    
+    public function allPayments()
+    {
+        return $this->select('name')->byCurrentUser()->indexBy('id')->column();
+    }
 
     /**
      * {@inheritdoc}
