@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
+.showBtn {
+    padding: 18px 60px;
+    background: #f16d7f;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 60px auto 60px;
+    outline: none;
+}
+
+.showBtn:hover {
+    background: palevioletred;
+    cursor: pointer;
+}
+
+.showBtn:active {
+    background: red;
+}
+
+
+.expensesCategorHead {
+    width: 1140px;
+    height: auto;
+    background-color: ghostwhite;
+    margin: 0 auto 0;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.expensescategory-item ,
+.expensesCategoryHead {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 30px 30px;
+    grid-auto-rows: 40px;
+    justify-content: space-between;
+}
+
+.expensescategory-item:nth-child(odd) {
+    background-color: lightgray
+}
+
+.expensescategory-item  div,
+.expensesCategoryHead div {
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.expensesCategoryHead div,
+.editDeleteButton {
+    margin-top: 0;
+    width: auto;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.editDeleteButton {
+    padding: 10px 7px;
+    outline: none;
+}
+.modal-header .modal-title {
+    float: left;
+}
+
+.modal-header .close {
+    float: right;
+}
+
+.editDeleteButton i:hover{
+    color:red;
+    transition: 0.4s;
+}
+
+.expensesCategoryHead div {
+    background: #f16d7f;
+    color: white;
+}
+
+.sum{
+    color: red;
+}
+
+.addInputName{
+    outline: none;
+    width: 350px;
+    padding: 5px 15px;
+    color: #a4a4a4;
+    font-size: 14px;
+    font-weight: 300;
+    margin: 15px 0;
+}
+
+.modal-title{
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.totalItems,
+.nodata {
+    color: #f16d7f;
+    font-size: 30px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.hidden{
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: darkgray;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: gray;
+}
+
+.searchWrap {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}

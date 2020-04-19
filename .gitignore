@@ -44,3 +44,6 @@ phpunit.phar
 
 # ignore image files
 /frontend/web/img/
+
+# ignore node-modules files
+/node_modules/

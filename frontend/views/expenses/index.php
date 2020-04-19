@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\grid\SerialColumn;
+use common\models\Expenses;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\search\ExpensesSearch */
@@ -26,13 +27,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => SerialColumn::class,
                 'header' => 'Псевдо-порядковый класс',
             ],
-            'id',
+            //'id',
             'title',
-            'cost',
-            'category_id',
-            'method_id',
+            [
+                'label' => 'Категория затрат',
+                'attribute' => 'category_id',
+                'value' => function(Expenses $model) {
+                    return $model->expensesCategory->title;
+                }
+            ],
+            [
+                'label' => 'Способ оплаты',
+                'attribute' => 'method_id',
+                'value' => function(Expenses $model) {
+                    return $model->paymentMethod->name;
+                }
+            ],
             //'user_id',
             'date',
+            'cost',
             //'description',
             //'created_at',
             //'updated_at',

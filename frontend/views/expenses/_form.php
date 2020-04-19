@@ -17,9 +17,9 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'cost')->textInput() ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'category_id')->textInput()->dropDownList(\common\models\ExpensesCategory::getExpensesCategory(), ['prompt'=>'Значение не выбрано'])  ?>
 
-    <?= $form->field($model, 'method_id')->textInput() ?>
+    <?= $form->field($model, 'method_id')->textInput()->dropDownList(\common\models\PaymentMethod::getPaymentMethod(), ['prompt'=>'Значение не выбрано'])  ?>
 
     <?= $form->field($model, 'date')->textInput(['type' => 'date']) ?>
 

@@ -20,6 +20,9 @@ use yii\db\ActiveRecord;
  * @property string|null $description Описание
  * @property int|null $created_at
  * @property int|null $updated_at
+ *
+ * @property-read  PaymentMethod $paymentMethod
+ * @property-read  ExpensesCategory $expensesCategory
  */
 class Expenses extends ActiveRecord
 {
@@ -55,6 +58,8 @@ class Expenses extends ActiveRecord
             [['title'], 'string', 'min' => 2, 'max' => 100],
             [['description'], 'string', 'min' => 2, 'max' => 512],
             [['date'], 'date', 'format' =>'php:Y-m-d'],
+            [['method_id'], 'exist', 'skipOnError' => false, 'targetClass' => PaymentMethod::class, 'targetAttribute' => ['method_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => false, 'targetClass' => ExpensesCategory::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
 
@@ -79,5 +84,23 @@ class Expenses extends ActiveRecord
     public function getExpensesAttachments()
     {
         return $this->hasMany(ExpensesAttachments::class, ['expenses_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
+    public function getPaymentMethod()
+    {
+        return $this->hasOne(PaymentMethod::class, ['id' => 'method_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
+    public function getExpensesCategory()
+    {
+        return $this->hasOne(ExpensesCategory::class, ['id' => 'category_id']);
     }
 }
