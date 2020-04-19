@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -27,8 +28,6 @@ class PaymentMethod extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'required'],
-            [['user_id'], 'integer'],
             [['name'], 'string', 'max' => 255],
         ];
     }
@@ -37,7 +36,7 @@ class PaymentMethod extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Название счёта',
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -48,6 +47,11 @@ class PaymentMethod extends \yii\db\ActiveRecord
     {
         return [
             ['class' => TimestampBehavior::className()],
+            [
+                'class' => BlameableBehavior::class,
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => 'user_id',
+            ],
         ];
     }
 
@@ -69,9 +73,15 @@ class PaymentMethod extends \yii\db\ActiveRecord
     {
         return new \common\models\query\PaymentMethodQuery(get_called_class());
     }
+    
+    public function getBalance()
+    {
+        return +$this->getCashFlows()->byPayment($this->id)->sum('sum');
+    }
 
     public static function getPaymentMethod()
     {
+        /*
         return ArrayHelper::map(
             self::find()
                 ->where([
@@ -81,5 +91,14 @@ class PaymentMethod extends \yii\db\ActiveRecord
                 ->all(),
             'id',
             'name');
+            */
+        return self::find()->allPayments();
+    }
+    
+    public function getOtherPayments()
+    {
+        $allPayments = self::find()->allPayments();
+        unset($allPayments[$this->id]);
+        return $allPayments;
     }
 }

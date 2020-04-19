@@ -10,6 +10,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property int $id
  * @property string|null $title
+ * @property string|null $date Дата
  * @property int $payment_id
  * @property int|null $type
  * @property int|null $operation_id
@@ -23,10 +24,10 @@ use yii\behaviors\TimestampBehavior;
  */
 class CashFlows extends \yii\db\ActiveRecord
 {
-    const TYPE_EXPENSE = 100;
-    const TYPE_WITHDRAW = 200; //снятие withdraw 
-    const TYPE_REPLENISH = 300; //пополнить replenish
-    const TYPE_TRANSFER = 400;
+    const TYPE_EXPENSE = 100;   //покупка 
+    const TYPE_WITHDRAW = 200;  //снятие
+    const TYPE_REPLENISH = 300; //пополнение
+    const TYPE_TRANSFER = 400;  //перевод
     
     const TYPES = [
         self::TYPE_EXPENSE,
@@ -36,10 +37,10 @@ class CashFlows extends \yii\db\ActiveRecord
     ];
     
     const TYPES_LABELS = [
-        self::TYPE_EXPENSE => 'Покупка',
+        //self::TYPE_EXPENSE => 'Покупка',
         self::TYPE_WITHDRAW => 'Снятие',
         self::TYPE_REPLENISH => 'Пополнение',
-        self::TYPE_TRANSFER => 'Перевод',
+        //self::TYPE_TRANSFER => 'Перевод',
     ];
 
     public static function tableName()
@@ -53,12 +54,15 @@ class CashFlows extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['payment_id', 'user_id'], 'required'],
-            [['payment_id', 'type', 'operation_id', 'sum', 'user_id'], 'integer'],
+            [['title', 'date', 'payment_id', 'type', 'sum'], 'required'],
+            [['payment_id', 'sum'], 'integer'],
             [['type'], 'in', 'range' => self::TYPES],
             [['title'], 'string', 'max' => 255],
-            [['payment_id'], 'exist', 'skipOnError' => true, 'targetClass' => PaymentMethod::className(), 'targetAttribute' => ['payment_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['date'], 'date', 'format' =>'php:Y-m-d'],
+            [['payment_id'], 'exist',
+                'skipOnError' => true,
+                'targetClass' => PaymentMethod::className(),
+                'targetAttribute' => ['payment_id' => 'id', 'user_id' => 'user_id']],
         ];
     }
 
@@ -69,11 +73,12 @@ class CashFlows extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'payment_id' => 'Payment ID',
-            'type' => 'Type',
-            'operation_id' => 'Operation ID',
-            'sum' => 'Sum',
+            'title' => 'Название операции',
+            'date' => 'Дата',
+            'payment_id' => 'Денежный счёт',
+            'type' => 'Тип операции',
+            'operation_id' => 'Операция',
+            'sum' => 'Сумма',
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
