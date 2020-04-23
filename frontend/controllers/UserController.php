@@ -12,33 +12,7 @@ use \yii\db\Query;
 
 
 class UserController extends Controller {
-/// Работа с заглушкой
 
-
-//////
-/*
-//////
-public function actionUser(){   //actionUser($id){
-	$user = array(['id' =>1 ,  // user = $id,
-				  'username' =>'Вликолепный',
-				  'subname' =>'Блестательный' ,
-				  'email' =>'mail@mail.ru',
-				  'created_at' =>'1.1.0001',
-				  'updated_at' =>'1.2.400000'
-				   ]);
-
-	
-
-
-    
-
-return $this->render('user', [
-               'user' => $user,
-            ]);
-}
-///////
-*/
-//////
 public function actionUser(){
 
 

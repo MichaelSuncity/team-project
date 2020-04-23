@@ -7,6 +7,7 @@ use yii\web\Controller;
 use frontend\models\Mainpage;
 use yii\db\ActiveQuery;
 use common\models\User;
+use common\models\News;
 
 /**
  * Site controller
@@ -19,7 +20,25 @@ class MainpageController extends Controller
                             ->limit(8)
                             ->asArray()
                             ->all();
-        
+       $News=(new \yii\db\Query())
+                   ->select(["id",
+                             "Header",
+                             "News",
+                             "Author",
+                             "Type_News",
+                             "Date"])
+                      ->from('News')
+                      ->orderBy(['id' => SORT_DESC])
+                      ->limit(3)
+                      ->all();
+
+
+
+
+
+
+
+
         $userCount=(new \yii\db\Query())
             ->select(["id","username","subname"])
             ->from('user')
@@ -27,7 +46,8 @@ class MainpageController extends Controller
            $userLastRegisteredresult=$userLastRegistered;
             return $this->render('main', [
                 'userLastRegisteredresult' => $userLastRegisteredresult,
-                'userCount' => $userCount
+                'userCount' => $userCount,
+                'News'=>$News
             ]);
     }
 }
