@@ -74,7 +74,7 @@ class ExpensesController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView(int $id)
     {
         $model = Expenses::findOne($id);
         if ($model->user_id == Yii::$app->user->id) {
