@@ -4,7 +4,6 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Expenses;
-use common\models\CashFlows;
 use frontend\models\search\ExpensesSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
