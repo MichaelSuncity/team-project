@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Название счёта',
                 'value' => function ($model) {
-                    return Html::a(Html::encode($model->name), Url::to(['view', 'id' => $model->id]));
+                    return Html::a(Html::encode($model->name), Url::to(['/cash-flows/payment-method', 'payment_id' => $model->id]));
                 },
                 'format' => 'raw',
             ],

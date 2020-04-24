@@ -2,14 +2,12 @@
 
 namespace common\models\query;
 
-use common\models\CashFlows;
-
 /**
- * This is the ActiveQuery class for [[\common\models\CashFlows]].
+ * This is the ActiveQuery class for [[\common\models\Expenses]].
  *
- * @see \common\models\CashFlows
+ * @see \common\models\Expenses
  */
-class CashFlowsQuery extends \yii\db\ActiveQuery
+class ExpensesQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -25,20 +23,10 @@ class CashFlowsQuery extends \yii\db\ActiveQuery
     {
         return $this->byUser(\Yii::$app->user->id);
     }
-    
-    public function byPayment($paymentId)
-    {
-        return $this->andWhere(['payment_id' => $paymentId]);
-    }
-    
-    public function byExpense($expenseId)
-    {
-        return $this->andWhere(['operation_id' => $expenseId]);
-    }
 
     /**
      * {@inheritdoc}
-     * @return \common\models\CashFlows[]|array
+     * @return \common\models\Expenses[]|array
      */
     public function all($db = null)
     {
@@ -47,7 +35,7 @@ class CashFlowsQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return \common\models\CashFlows|array|null
+     * @return \common\models\Expenses|array|null
      */
     public function one($db = null)
     {

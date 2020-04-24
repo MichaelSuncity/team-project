@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\PaymentMethod */
 
-$this->title = 'Create Payment Method';
+$this->title = 'Создание счёта';
 $this->params['breadcrumbs'][] = ['label' => 'Денежные средства', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

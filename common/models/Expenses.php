@@ -103,4 +103,35 @@ class Expenses extends ActiveRecord
     {
         return $this->hasOne(ExpensesCategory::class, ['id' => 'category_id']);
     }
+    
+    public static function find()
+    {
+        return new \common\models\query\ExpensesQuery(get_called_class());
+    }
+    
+    public function doFlow()
+    {
+        if (($cashFlow = CashFlows::find()->byExpense($this->id)->one()) !== null) {
+            
+            $cashFlow->title = $this->title;
+            $cashFlow->date = $this->date;
+            $cashFlow->payment_id = $this->method_id;
+            $cashFlow->sum = -$this->cost;
+            
+        } else {
+            $cashFlow = new CashFlows([
+                'title' => $this->title,
+                'date' => $this->date,
+                'payment_id' => $this->method_id,
+                'type' => CashFlows::TYPE_EXPENSE,
+                'operation_id' => $this->id,
+                'sum' => -$this->cost,
+                'user_id' => $this->user_id,
+            ]);
+        }
+        
+        return $cashFlow->save();
+        
+    }
+    
 }

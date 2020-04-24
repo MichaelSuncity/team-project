@@ -43,6 +43,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            /*
             'rules' => [
                 [
                     'controller' => 'api/expensescategories',
@@ -57,6 +58,8 @@ return [
                     ],
                 ],
             ],
+            */
+            'rules' => require 'route-rules.php',
         ],
     ],
     'modules' => [

@@ -111,6 +111,11 @@ class CashFlows extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+    
+    public function getExpense()
+    {
+        return $this->hasOne(Expenses::className(), ['id' => 'operation_id']);
+    }
 
     /**
      * {@inheritdoc}
@@ -120,4 +125,5 @@ class CashFlows extends \yii\db\ActiveRecord
     {
         return new \common\models\query\CashFlowsQuery(get_called_class());
     }
+
 }

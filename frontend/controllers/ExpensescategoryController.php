@@ -42,6 +42,8 @@ class ExpensescategoryController extends Controller
     {
         $searchModel = new ExpensesCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $dataProvider->query->byCurrentUser();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
