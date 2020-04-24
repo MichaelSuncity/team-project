@@ -8,6 +8,7 @@ use common\models\PaymentMethod;
 use common\models\search\CashFlowsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\NotAcceptableHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -40,6 +41,24 @@ class CashFlowsController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         $dataProvider->query->byCurrentUser(); 
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'payments' => PaymentMethod::getPaymentMethod(),
+        ]);
+    }
+    
+    /**
+     * Lists all CashFlows models.
+     * @return mixed
+     */
+    public function actionPaymentMethod($payment_id)
+    {
+        $searchModel = new CashFlowsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        $dataProvider->query->byPayment($payment_id)->byCurrentUser(); 
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -125,7 +144,11 @@ class CashFlowsController extends Controller
     protected function findModel($id)
     {
         if (($model = CashFlows::findOne($id)) !== null) {
-            return $model;
+            if ($model->user_id == Yii::$app->user->id) {
+                return $model;
+            } else {
+                throw new NotAcceptableHttpException('У вас нет доступа к этой странице');
+            }
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');

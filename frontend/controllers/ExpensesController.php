@@ -94,14 +94,34 @@ class ExpensesController extends Controller
     public function actionCreate()
     {
         $model = new Expenses();
-
+        
+/*
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
+        }
+*/
+        if ($model->load(Yii::$app->request->post())) {
+                
+            $transaction = Yii::$app->db->beginTransaction();
+            
+            if ($model->save() && $model->doFlow()) {
+                
+                $transaction->commit();
+                
+                return $this->redirect(['view', 'id' => $model->id]);
+                
+            } else {
+                
+                $transaction->rollback();
+                
+                throw new \yii\base\ErrorException('Не удалось записать в базу данных.');
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+        
     }
 
     /**
@@ -115,8 +135,27 @@ class ExpensesController extends Controller
     {
         $model = Expenses::findOne($id);
         if ($model->user_id == Yii::$app->user->id) {
+/*
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
+            }
+*/
+            if ($model->load(Yii::$app->request->post())) {
+                
+                $transaction = Yii::$app->db->beginTransaction();
+
+                if ($model->save() && $model->doFlow()) {
+
+                    $transaction->commit();
+
+                    return $this->redirect(['view', 'id' => $model->id]);
+
+                } else {
+
+                    $transaction->rollback();
+
+                    throw new \yii\base\ErrorException('Не удалось записать в базу данных.');
+                }
             }
 
             return $this->render('update', [

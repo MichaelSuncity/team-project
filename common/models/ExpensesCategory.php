@@ -67,6 +67,11 @@ class ExpensesCategory extends \yii\db\ActiveRecord
             'updated_at' => 'Дата обновления',
         ];
     }
+    
+    public static function find()
+    {
+        return new \common\models\query\ExpensesCategoryQuery(get_called_class());
+    }
 
     /**
      * Gets query for [[User]].

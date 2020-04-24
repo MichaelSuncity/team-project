@@ -10,6 +10,7 @@ use common\models\CashFlows;
 use common\models\search\PaymentMethodSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\NotAcceptableHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -198,7 +199,7 @@ class PaymentMethodController extends Controller
                 
                 $transaction->rollback();
                 
-                throw new \yii\base\Exception('Не удалось записать в базу данных.');
+                throw new \yii\base\ErrorException('Не удалось записать в базу данных.');
             }
         }
 
@@ -217,7 +218,11 @@ class PaymentMethodController extends Controller
     protected function findModel($id)
     {
         if (($model = PaymentMethod::findOne($id)) !== null) {
-            return $model;
+            if ($model->user_id == Yii::$app->user->id) {
+                return $model;
+            } else {
+                throw new NotAcceptableHttpException('У вас нет доступа к этой странице');
+            }
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
