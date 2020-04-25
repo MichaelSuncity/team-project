@@ -40,4 +40,8 @@ $this->params['breadcrumbs'][] = 'редактирование';
             <?php endforeach;?>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> DEV

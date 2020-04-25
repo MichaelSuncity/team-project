@@ -77,4 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif;?>
 
     <p><?= Html::a('Вернуться к списку', Url::to(['/expenses/index']) ) ?></p>
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> DEV

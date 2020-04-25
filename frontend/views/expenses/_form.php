@@ -32,4 +32,8 @@ use yii\helpers\Url;
     <?php ActiveForm::end(); ?>
     <p><?= Html::a('Вернуться к списку', Url::to(['/expenses/index']) ) ?></p>
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> DEV

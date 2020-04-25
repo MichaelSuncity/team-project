@@ -58,4 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить запись', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+<<<<<<< HEAD
 </div>
+=======
+</div>
+>>>>>>> DEV
