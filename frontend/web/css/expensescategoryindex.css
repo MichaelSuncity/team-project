@@ -146,3 +146,15 @@ body {
     display: flex;
     justify-content: center;
 }
+
+.invalid{
+    border: 1px solid red;
+}
+
+.helper-text{
+    color: red;
+}
+
+.addform{
+    margin: 80px 30%;
+}

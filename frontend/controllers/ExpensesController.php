@@ -43,10 +43,7 @@ class ExpensesController extends Controller
     public function actionIndex()
     {
         $searchModel = new ExpensesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        /*
-        Заготовка кода для просмотра страницы админом или пользователем своих записей. Раскомментировать  и закомментировать строка кода повыше
 
         $query = Expenses::find();
         if (!Yii::$app->user->can('admin')) {
@@ -60,7 +57,6 @@ class ExpensesController extends Controller
                 'pageSize'=> 20,
             ]
         ]);
-        */
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
