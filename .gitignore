@@ -47,3 +47,9 @@ phpunit.phar
 
 # ignore node-modules files
 /node_modules/
+
+# ignore .cache files
+/.cache/
+
+# ignore dist files
+/dist/
