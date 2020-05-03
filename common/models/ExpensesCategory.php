@@ -153,17 +153,6 @@ class ExpensesCategory extends \yii\db\ActiveRecord
                 return $this->getTotalCategoryCurrentMonth();
             }
         ]);
-        /* Фильтрация  вывода категорий, которые не принадлежат авторизованному пользователю.
-        $user = Yii::$app->user->identity->getId();
-        foreach ($fields as $key){
-            if($this->user_id != $user){
-                array_splice($fields,0,1);
-            }
-        }*/
-        //Другой способ вывода категорий, которые не принадлежат авторизованному пользователю.
-        /*$fields = array_filter($fields, function (){
-            return $this->user_id == Yii::$app->user->identity->getId();
-        });*/
         return $fields;
     }
 }

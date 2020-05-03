@@ -5,6 +5,7 @@ return [
         'controller' => 'api/expensescategories',
         'class' => \yii\rest\UrlRule::class,
         'extraPatterns' => [
+            'GET auth' => 'auth'
         ],
     ],
     [

@@ -91,7 +91,7 @@ export default {
         },
     },
     mounted(){
-        fetch(`${API_URL}`)
+        fetch('api/expensescategories/auth')
             .then((response) => response.json())
             .then((items) => {
                 this.items = items;
