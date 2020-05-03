@@ -20,7 +20,7 @@ class ExpensescategoriesController extends ActiveController
             'query' => ExpensesCategory::find()->where([
                 'user_id' => \Yii::$app->user->id
             ]),
-            //'pagination' => false
+            'pagination' => false
             /*'pagination' => [
                 'pageSize' => 2
             ]*/
