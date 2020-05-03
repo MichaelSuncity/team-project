@@ -48,6 +48,7 @@ class ExpensesCategory extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
+            [['title'], 'unique'],
             [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'min' => 2, 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],

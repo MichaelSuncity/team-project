@@ -3,6 +3,7 @@
         <button type="button" @click="handleClickShow" id="showBtn" class="showBtn">
             Добавить категорию
         </button>
+        {{ error }}
         <expenses-category @onremove="handleClickRemove" @onedit="handleClickShow"  :items="items"></expenses-category>
         <modals-container @onadd="handleClickAdd"/>
     </div>
@@ -23,61 +24,64 @@ export default {
     data(){
        return {
         items: [],
+        error: '',
        }
     },
 
     methods: {
         handleClickShow(item) {
+            this.error ='';
             this.$modal.show(ItemForm, {item}, {width: "50%"});
         },
 
         handleClickAdd(item) {
             const title = document.getElementById('addInputName').value;
-            const existTitle = this.items.find(categoryItem => categoryItem.title == title);
             const categoryItem = this.items.find(categoryItem => categoryItem.id == item.id);
             if(categoryItem){// если уже существует категория с таким id, то редактируем
-                if(!existTitle){ // проверка на существование уже такого названия
-                    fetch(`${API_URL}/${item.id}`, {
-                        method: 'PATCH',
-                        body: JSON.stringify({
-                        title: title,
-                    }),
-                        headers: {
-                        'Content-Type': 'application/json',
-                    }
-                }).then((response) => response.json())
-                    .then((result) => {
-                    //считываю порядковый номер элемента (категории) в массиве, чтобы обновить
-                    const idx = this.items.findIndex(categoryItem => categoryItem.id == item.id);
-                    Vue.set(this.items, idx, result);
-                }); 
-                } else {
-                    document.getElementById('addInputName').value ="Категория с таким названием уже существует!";
-                }
-            } else {//если нету id, то создаем 
-            if(!existTitle){// проверка на существование уже такого названия
-                fetch(`${API_URL}`, {
-                    method: 'POST',
+                fetch(`${API_URL}/${item.id}`, {
+                    method: 'PATCH',
                     body: JSON.stringify({
                     title: title,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }).then((response) => {
+                    if(response.status == 200){
+                        response.json()
+                        .then((result) => {
+                        const idx = this.items.findIndex(categoryItem => categoryItem.id == item.id);
+                        Vue.set(this.items, idx, result);
+                        });
+                    } else if (response.status == 422) {
+                        this.error ="Категория с таким названием уже существует!";
+                    }
+                }); 
+            } else {//если нету id, то создаем 
+                    fetch(`${API_URL}`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                        title: title,
                         }),
                     headers: {
                         'Content-Type': 'application/json',
                     }
-                    }).then((response) => response.json())
+                    }).then((response) => { 
+                    if(response.status == 201){
+                        response.json()
                         .then((title) => {
                             this.items.push(title);
                         });
-                    } else {
-                        document.getElementById('addInputName').value ="Категория с таким названием уже существует!";
+                    } else if (response.status == 422){
+                        this.error ="Категория с таким названием уже существует!";
                     }
+                });
             }
-         
         },
 
         handleClickRemove(item) {
+            this.error ='';
             const categoryItem = this.items.find(categoryItem => categoryItem.id == item.id);
-            console.log(categoryItem.id);
             fetch(`${API_URL}/${categoryItem.id}`, {
                 method: 'DELETE',
                 body: JSON.stringify({}),
@@ -91,7 +95,7 @@ export default {
         },
     },
     mounted(){
-        fetch('api/expensescategories/auth')
+        fetch(`${API_URL}/auth`)
             .then((response) => response.json())
             .then((items) => {
                 this.items = items;

@@ -8,7 +8,6 @@
                 :class="{invalid: ($v.titleCategory.$dirty && !$v.titleCategory.required) || ($v.titleCategory.$dirty && !$v.titleCategory.minLength)}" 
                 type="text" 
                 placeholder="Введите название..." 
-                :value="item.title" 
                 v-model="titleCategory">
                 <small class="helper-text" v-if = "$v.titleCategory.$dirty && !$v.titleCategory.required">Поле не должно быть пустым!</small>
                 <small class="helper-text" v-else-if = "$v.titleCategory.$dirty && !$v.titleCategory.minLength">Введите не менее 4 символов!</small>
@@ -29,9 +28,6 @@ export default {
         titleCategory: '',
 
     },
-    /*data: ()=> ({
-        titleCategory: '',
-    }),*/
     validations: {
     titleCategory: {
       required,
@@ -46,6 +42,7 @@ export default {
             return
         }
         this.$emit('onadd', item);
+        this.$emit("close");
         },
     }
 }
