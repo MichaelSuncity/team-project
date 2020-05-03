@@ -3,10 +3,10 @@
             <div class="totalItems" v-if="items.length==0">Категории не созданы. Создайте категорию расходов</div>
             <div class='categories' v-if="items.length!=0">
                 <div id='expensesCategoryHead' class='expensesCategoryHead'>
-                    <div>Название категории</div>
-                    <div>Затраты за сегодня</div>
-                    <div>Затраты в этом месяце</div>
-                    <div>Затраты за все время</div>
+                    <div @click="sortByTitle" class='expensesCategoryHeadTitle'>Название категории<i class="fas fa-arrows-alt-v"></i></div>
+                    <div @click="sortByTotalToday" class='expensesCategoryHeadTitle'>Затраты за сегодня<i class="fas fa-arrows-alt-v"></i></div>
+                    <div @click="sortByTotalMonth" class='expensesCategoryHeadTitle'>Затраты в этом месяце<i class="fas fa-arrows-alt-v"></i></div>
+                    <div @click="sortByTotal" class='expensesCategoryHeadTitle'>Затраты за все время<i class="fas fa-arrows-alt-v"></i></div>
                     <div></div>
                     <div></div>
                 </div>
@@ -40,13 +40,13 @@ export default {
     },
     data() {
         return {
-            notesPerPage: 5,
+            notesPerPage: 10,
             pageNumber: 1,
         }
     },
     computed: {
         pages() {
-            return Math.ceil(this.items.length / 5);
+            return Math.ceil(this.items.length / 10);
         },
         paginatedCategories(){
             let from  = (this.pageNumber - 1) * this.notesPerPage;
@@ -63,6 +63,18 @@ export default {
         },
         pageClick(page){
             this.pageNumber = page;
+        },
+        sortByTitle(){
+           this.items.sort((a,b) => a.title.localeCompare(b.title)) 
+        },
+        sortByTotal(){
+            this.items.sort((a,b) =>  b.total - a.total) 
+        },
+        sortByTotalToday(){
+            this.items.sort((a,b) =>  b.totaltoday - a.totaltoday) 
+        },
+        sortByTotalMonth(){
+            this.items.sort((a,b) =>  b.totalmonth - a.totalmonth) 
         }
    }
 };

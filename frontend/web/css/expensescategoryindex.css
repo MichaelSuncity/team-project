@@ -183,3 +183,8 @@ body {
     cursor: pointer;
     color: white;
 }
+
+.expensesCategoryHeadTitle:hover{
+    cursor: pointer;
+    color: red;
+}
